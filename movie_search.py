@@ -2,6 +2,16 @@ import sys
 import requests
 import json
 
+def print_dict_data(dictt,index,msg):
+    data=dictt.get(index)
+    if data!=None:
+        print(msg+' '+data)
+        return
+    else:
+        return
+
+
+
 def get_data_movie(movie_name,parametro,pagina=1):
     try:
         req=requests.get(url='http://www.omdbapi.com/?i=tt3896198&apikey=b34f7b7b&'+parametro+'='+movie_name+'&type=movie&page='+pagina)
@@ -15,7 +25,7 @@ def get_data_movie(movie_name,parametro,pagina=1):
     except Exception as e:
         print('erro:',e)
 
-def mostra_pagina(dados,movie_name):
+def mostra_pagina(dados):
     #resposta=get_data_movie(str(sys.argv[2:]),'s'+str(pagina),str(pagina))
     #print (type(dados))
     for i in dados.get('Search'):
@@ -26,12 +36,19 @@ def mostra_pagina(dados,movie_name):
 def print_movie_data(movie_data):
     try:
         print('====Movie data====')
-        print('\tTitulo:',movie_data.get('Title'))
-        print('\tAno:',movie_data.get('Year'))
-        print('\tImdb:',movie_data.get('imdbRating'))
-        print('\tProdutora',movie_data.get('Production'))
-        print('\tSite:',movie_data.get('Website'))
-        print('\tPlot:',movie_data.get('Plot'))
+
+        print_dict_data(dictt=movie_data,index='Title',msg='\tTitulo:')
+        print_dict_data(dictt=movie_data,index='Year',msg='\tAno:')
+        print_dict_data(dictt=movie_data,index='imdbRating',msg='\tImdb:')
+        print_dict_data(dictt=movie_data,index='Production',msg='\tProdutora:')
+        print_dict_data(dictt=movie_data,index='Website',msg='\tSite:')
+        print_dict_data(dictt=movie_data,index='Plot',msg='\tPlot:')
+        #print('\tTitulo:',movie_data.get('Title'))
+        #print('\tAno:',movie_data.get('Year'))
+        #print('\tImdb:',movie_data.get('imdbRating'))
+        #print('\tProdutora',movie_data.get('Production'))
+        #print('\tSite:',movie_data.get('Website'))
+        #print('\tPlot:',movie_data.get('Plot'))
 
     except IndexError:
         print('esqueceu o nome do filme')
@@ -53,11 +70,10 @@ def main():
             print('existem',resposta.get('totalResults'),'resultado para sua busca')
             ver=input('deseja ver os resultados?(y/n)')
             if(ver=='y' or ver=='Y'):
-                for i in range(0,numberOfPages):
+                for i in range(1,numberOfPages):
                     print (i)
-                    pagina=i+1
-                    resposta=get_data_movie(str(sys.argv[2:]),'s',str(pagina))
-                    mostra_pagina(resposta,pagina)
+                    resposta=get_data_movie(str(sys.argv[2:]),'s',str(i))
+                    mostra_pagina(resposta)
                     continua=input('continue?(y,n)')
                     if(continua=='n' or continua=='n'):
                         sys.exit()
