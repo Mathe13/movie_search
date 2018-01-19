@@ -5,7 +5,13 @@ import json
 def get_data_movie(movie_name,parametro):
     try:
         req=requests.get(url='http://www.omdbapi.com/?i=tt3896198&apikey=b34f7b7b&'+parametro+'='+movie_name+'&type=movie')
-        return json.loads(req.text)
+        resposta=json.loads(req.text)
+        if resposta['Response']=='False':
+            print('filme não encontrado')
+            sys.exit()
+        else:
+            print('teste')
+            return resposta
     except Exception as e:
         print('erro:',e)
 
@@ -13,20 +19,16 @@ def get_data_movie(movie_name,parametro):
 
 def print_movie_data(movie_data):
     try:
-
-        if movie_data['Response']=='False':
-            print('filme não encontrado')
-        else:
-            print('====Movie data====')
-            print('\tTitulo:',movie_data.get('Title'))
-            print('\tAno:',movie_data.get('Year'))
-            print('\tImdb:',movie_data.get('imdbRating'))
-            print('\tProdutora',movie_data.get('Production'))
-            print('\tSite:',movie_data.get('Website'))
-            print('\tPlot:',movie_data.get('Plot'))
+        print('====Movie data====')
+        print('\tTitulo:',movie_data.get('Title'))
+        print('\tAno:',movie_data.get('Year'))
+        print('\tImdb:',movie_data.get('imdbRating'))
+        print('\tProdutora',movie_data.get('Production'))
+        print('\tSite:',movie_data.get('Website'))
+        print('\tPlot:',movie_data.get('Plot'))
 
     except IndexError:
-        print('you are missing the movie name')
+        print('esqueceu o nome do filme')
         return
     except Exception as e:
         print('Erro:',e)
@@ -43,12 +45,11 @@ def main():
             print('todo')
             resposta=get_data_movie(str(sys.argv[2:]),'s')
             print('existem',resposta.get('totalResults'),'resultado para sua busca')
-            ver=input('deseja ver todos os resultados?(y/n)')
+            ver=input('deseja ver os 10 primeiros?(y/n)')
             if(ver=='y' or ver=='Y'):
-                print('todo')
-                for i in range(0,int(resposta.get('totalResults'))):
-                    print('teste')
-                    print_movie_data(resposta)
+                for i in resposta.get('Search'):
+                    #print('teste')
+                    print_movie_data(i)
             else:
                 print('todo')
         elif(op=='-t'):
