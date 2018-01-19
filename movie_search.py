@@ -2,6 +2,16 @@ import sys
 import requests
 import json
 
+def print_dict_data(dictt,index,msg):
+    data=dictt.get(index)
+    if data!='None':
+        print(msg+' '+data)
+        return
+    else:
+        return
+
+
+
 def get_data_movie(movie_name,parametro,pagina=1):
     try:
         req=requests.get(url='http://www.omdbapi.com/?i=tt3896198&apikey=b34f7b7b&'+parametro+'='+movie_name+'&type=movie&page='+pagina)
@@ -26,12 +36,19 @@ def mostra_pagina(dados,movie_name):
 def print_movie_data(movie_data):
     try:
         print('====Movie data====')
-        print('\tTitulo:',movie_data.get('Title'))
-        print('\tAno:',movie_data.get('Year'))
-        print('\tImdb:',movie_data.get('imdbRating'))
-        print('\tProdutora',movie_data.get('Production'))
-        print('\tSite:',movie_data.get('Website'))
-        print('\tPlot:',movie_data.get('Plot'))
+
+        print_dict_data(dictt=movie_data,index='Title',msg='\tTitulo:')
+        print_dict_data(dictt=movie_data,index='Year',msg='\tAno:')
+        print_dict_data(dictt=movie_data,index='imdbRating',msg='\tImdb:')
+        print_dict_data(dictt=movie_data,index='Production',msg='\tProdutora:')
+        print_dict_data(dictt=movie_data,index='Website',msg='\tSite:')
+        print_dict_data(dictt=movie_data,index='Plot',msg='\tPlot:')
+        #print('\tTitulo:',movie_data.get('Title'))
+        #print('\tAno:',movie_data.get('Year'))
+        #print('\tImdb:',movie_data.get('imdbRating'))
+        #print('\tProdutora',movie_data.get('Production'))
+        #print('\tSite:',movie_data.get('Website'))
+        #print('\tPlot:',movie_data.get('Plot'))
 
     except IndexError:
         print('esqueceu o nome do filme')
