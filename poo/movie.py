@@ -1,3 +1,4 @@
+
 from omdbapi import omdbapi as omdb_api
 
 class movie(omdb_api):
@@ -39,4 +40,9 @@ class movie(omdb_api):
             return
 
 filme=movie(movie_name='The matrix',parametro='t',pagina='1')
-filme.print_data()
+
+#print(filme.data)
+for k,v in filme.data.items():
+    print("{} {}".format(k,v))
+# dicionario ={'a': 0, 'b': 1, 'c': 2}
+# print(dicionario.items())
