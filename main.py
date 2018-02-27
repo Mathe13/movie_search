@@ -30,7 +30,7 @@ class janela(QMainWindow):
         self.exibe_resposta()
 
     def exibe_resposta(self):
-        """Coloca as resposta nos labels."""
+        """Coloca as respostas nos labels."""
         self.titulo.setText(self.buscador.get_resposta('Title', 'Título:'))
         self.ano.setText(self.buscador.get_resposta('Year', 'Ano:'))
         self.produtor.setText(
