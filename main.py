@@ -1,3 +1,4 @@
+"""Main do projeto."""
 # -*- coding: utf-8 -*-
 import sys
 import requests
@@ -8,12 +9,12 @@ from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.uic import loadUi
 
 
-class janela(QMainWindow):
+class movie_search(QMainWindow):
     """Classe principal."""
 
     def __init__(self):
         """Iniciar a interface."""
-        super(janela, self).__init__()
+        super(movie_search, self).__init__()
         self.buscador = omdb_api.omdbapi()
         loadUi('gui/mainwindow.ui', self, resource_suffix='resources.qrc')
         self.poster.setPixmap(QPixmap('gui/imgs/poster_none.png'))
@@ -38,17 +39,20 @@ class janela(QMainWindow):
         self.diretor.setText(
             self.buscador.get_resposta('Director', 'Diretor:'))
         self.premios.setText(self.buscador.get_resposta('Awards', 'Premios:'))
-        self.lancamento.setText(
-            self.buscador.get_resposta('Release', 'Lançamento:'))
+        self.rank.setText(
+            self.buscador.get_resposta('imdbRating', 'Rank IMDB:'))
         self.plot.setText(self.buscador.get_resposta('Plot', 'Plot:'))
         poster_data = requests.get(self.dados['Poster'])
         if (poster_data.content):
             poster = QImage()
             poster.loadFromData(poster_data.content)
             self.poster.setPixmap(QPixmap(poster))
+        # quebra de linha:
+        self.plot.setWordWrap(True)
+        self.premios.setWordWrap(True)
 
 
 app = QApplication(sys.argv)
-widget = janela()
+widget = movie_search()
 widget.show()
 sys.exit(app.exec_())

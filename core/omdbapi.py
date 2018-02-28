@@ -40,8 +40,8 @@ class omdbapi():
         print('Buscando a chave:' + chave)
         if chave in self.data:
             resposta = self.data[chave]
-
         else:
             resposta = "None"
+
         return ('<html><head/><body><p><span style=" font-size:14pt;">' +
                 desc + resposta + '</span > </p > </body > </html >')
